@@ -1,0 +1,16 @@
+#!/bin/bash
+# Check if the command already has --default-index to avoid duplicates
+if [[ "$*" == *"--default-index"* ]]; then
+  exec /usr/local/google/home/owq/.local/bin/uv "$@"
+else
+  # Locate the subcommand (e.g. sync, run, pip) and insert --default-index
+  # For safety, let's just append it or insert it after the subcommand
+  # If we have arguments, let's insert it right after the first argument if it doesn't start with -
+  if [[ "$1" =~ ^[a-z]+$ ]]; then
+    subcmd="$1"
+    shift
+    exec /usr/local/google/home/owq/.local/bin/uv "$subcmd" --default-index https://pypi.org/simple "$@"
+  else
+    exec /usr/local/google/home/owq/.local/bin/uv --default-index https://pypi.org/simple "$@"
+  fi
+fi

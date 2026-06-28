@@ -1,0 +1,19 @@
+# Ignored build and run folders
+.venv/
+node_modules/
+dist/
+build/
+.adk/
+.google-agents-cli/
+.agents-cli-scripts/
+**/__pycache__/
+*.pyc
+
+# Local logs and database caches
+artifacts/
+.system_generated/
+*.db
+*.log
+.env
+.agents
+.cursorrules

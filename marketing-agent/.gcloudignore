@@ -1,0 +1,10 @@
+.gcloudignore
+.git
+.gitignore
+.venv/
+.google-agents-cli/
+.agents-cli-scripts/
+**/__pycache__/
+*.pyc
+artifacts/
+tests/

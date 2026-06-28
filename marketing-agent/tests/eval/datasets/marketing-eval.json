@@ -1,0 +1,32 @@
+{
+  "eval_cases": [
+    {
+      "eval_case_id": "bq_workflow_test",
+      "prompt": {
+        "role": "user",
+        "parts": [{"text": "Suggest a marketing campaign using only the historical performance metrics of our internal podcast library."}]
+      }
+    },
+    {
+      "eval_case_id": "trend_workflow_test",
+      "prompt": {
+        "role": "user",
+        "parts": [{"text": "Analyze the Google Trends for 'World Cup 2026' and suggest a campaign based on those public trend statistics."}]
+      }
+    },
+    {
+      "eval_case_id": "both_workflow_test",
+      "prompt": {
+        "role": "user",
+        "parts": [{"text": "Can you check current search trends for AI and match them to our best AI contents to suggest a campaign?"}]
+      }
+    },
+    {
+      "eval_case_id": "suggest_campaign_test",
+      "prompt": {
+        "role": "user",
+        "parts": [{"text": "Suggest a marketing campaign for our media catalog."}]
+      }
+    }
+  ]
+}
