@@ -75,6 +75,18 @@ def check_google_trends(term: str = None, location: str = None) -> dict:
     Returns:
         A dictionary containing the trending status, rank, recent search scores, and location details.
     """
+    # Swap country names supplied as terms to regional filters to retrieve top trends for that region
+    if term and not location:
+        t_clean = term.lower().strip()
+        known_countries = {
+            "japan", "united kingdom", "france", "germany", "vietnam", "singapore", 
+            "malaysia", "thailand", "philippines", "indonesia", "south korea", 
+            "belgium", "switzerland", "saudi arabia", "vietnam", "united states", "india"
+        }
+        if t_clean in known_countries:
+            location = term
+            term = None
+
     cache_key = (term.lower() if term else None, location.lower() if location else None)
     now = time.time()
     if cache_key in TRENDS_CACHE:
