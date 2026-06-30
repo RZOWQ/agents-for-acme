@@ -1,86 +1,40 @@
-# marketing-agent
+# Marketing Agent
 
-Simple ReAct agent
-Agent generated with `agents-cli` version `0.5.0`
+A structured, modular ADK 2.0 marketing campaign generator agent built on Vertex AI and Gemini.
 
 ## Project Structure
 
 ```
 marketing-agent/
-├── app/         # Core agent code
-│   ├── agent.py               # Main agent logic
-│   └── app_utils/             # App utilities and helpers
-├── tests/                     # Unit, integration, and load tests
-├── GEMINI.md                  # AI-assisted development guide
-└── pyproject.toml             # Project dependencies
+├── app/                  # Core Agent Code
+│   ├── agent.py          # Main entrypoint and workflow definition
+│   ├── agents.py         # Subagent definitions (planner, SQL, generator, critic, refiner)
+│   ├── schemas.py        # Pydantic structured output models
+│   ├── model_utils.py    # Fallback chains for Multi-Region Vertex AI
+│   ├── nodes.py          # Workflow function nodes
+│   ├── plugins.py        # ADK plugins (Caching and Throttling)
+│   ├── tools.py          # Google Trends & BigQuery connectors
+│   └── app_utils/        # ADK internal system configurations
+├── tests/                # Unit and integration test suites
+├── GEMINI.md             # AI developer guidance
+└── pyproject.toml        # Poetry / UV Python dependencies
 ```
 
-> 💡 **Tip:** Use [Gemini CLI](https://github.com/google-gemini/gemini-cli) for AI-assisted development - project context is pre-configured in `GEMINI.md`.
+## Features
 
-## Requirements
+- **Multi-Region Fallback Chain:** Automatically handles API rate limits (HTTP 429) by transparently falling back between multiple Vertex regional endpoints.
+- **Bi-directional Google Trends Search:** Automatically detects query targets and searches regional top trends without hardcoded keyword bias.
+- **Workflow State Management:** State fields are explicitly decoupled to prevent variable leakage between iterations.
+- **Throttling & Caching Plugins:** Built-in rate limiting and query caches to minimize overhead.
 
-Before you begin, ensure you have:
-- **uv**: Python package manager (used for all dependency management in this project) - [Install](https://docs.astral.sh/uv/getting-started/installation/) ([add packages](https://docs.astral.sh/uv/concepts/dependencies/) with `uv add <package>`)
-- **agents-cli**: Agents CLI - Install with `uv tool install google-agents-cli`
-- **Google Cloud SDK**: For GCP services - [Install](https://cloud.google.com/sdk/docs/install)
+## Development & Test Commands
 
-
-## Quick Start
-
-Install `agents-cli` and its skills if not already installed:
-
+Run unit and integration tests:
 ```bash
-uvx google-agents-cli setup
+uv run pytest tests/unit tests/integration
 ```
 
-Install required packages:
-
+Start the agent server locally:
 ```bash
-agents-cli install
+uv run fastapi dev app/fast_api_app.py
 ```
-
-Test the agent with a local web server:
-
-```bash
-agents-cli playground
-```
-
-You can also use features from the [ADK](https://adk.dev/) CLI with `uv run adk`.
-
-## Commands
-
-| Command              | Description                                                                                 |
-| -------------------- | ------------------------------------------------------------------------------------------- |
-| `agents-cli install` | Install dependencies using uv                                                         |
-| `agents-cli playground` | Launch local development environment                                                  |
-| `agents-cli lint`    | Run code quality checks                                                               |
-| `agents-cli eval`    | Evaluate agent behavior (generate, grade, analyze, and more — see `agents-cli eval --help`) |
-| `uv run pytest tests/unit tests/integration` | Run unit and integration tests                                                        |
-
-## 🛠️ Project Management
-
-| Command | What It Does |
-|---------|--------------|
-| `agents-cli scaffold enhance` | Add CI/CD pipelines and Terraform infrastructure |
-| `agents-cli infra cicd` | One-command setup of entire CI/CD pipeline + infrastructure |
-| `agents-cli scaffold upgrade` | Auto-upgrade to latest version while preserving customizations |
-
----
-
-## Development
-
-Edit your agent logic in `app/agent.py` and test with `agents-cli playground` - it auto-reloads on save.
-
-## Deployment
-
-```bash
-gcloud config set project <your-project-id>
-agents-cli deploy
-```
-
-To add CI/CD and Terraform, run `agents-cli scaffold enhance`.
-To set up your production infrastructure, run `agents-cli infra cicd`.
-
-## Observability
-
-Built-in telemetry exports to Cloud Trace, BigQuery, and Cloud Logging.

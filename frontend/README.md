@@ -1,16 +1,39 @@
-# React + Vite
+# ACME Media Campaign and Support Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React single page dashboard that interfaces with both the **Marketing Agent** and the **Customer Support Agent**.
 
-Currently, two official plugins are available:
+## Project Structure
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```
+frontend/
+├── src/
+│   ├── components/
+│   │   ├── CustomerSupportWidget.jsx  # Customer support floating chat box
+│   │   └── MarkdownComponents.jsx     # Renders inline Vega-Lite, metric cards, and banners
+│   ├── App.jsx                        # Main layout and campaign workspace
+│   ├── App.css                        # Glassmorphic layout styling
+│   ├── index.css                      # Global design system style tokens
+│   └── main.jsx                       # Entrypoint mount
+├── index.html
+├── package.json
+└── vite.config.js
+```
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Vega-Lite Live Chart Embedding:** Renders trends (line charts), allocations (donut charts), and views (bar charts) programmatically.
+- **Stage Progress Bar:** Displays detailed agent workflow steps (Planner -> BQ Fetching -> Generator -> Critic review loops) in real-time.
+- **Customer Support Floating Widget:** Direct chat bridge connecting to the customer-agent service.
+- **Premium Glassmorphic UI:** Aesthetic, modern, high-contrast dark layout theme.
 
-## Expanding the ESLint configuration
+## Development & Test Commands
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Start Vite dev server locally:
+```bash
+npm run dev
+```
+
+Build production static assets:
+```bash
+npm run build
+```
