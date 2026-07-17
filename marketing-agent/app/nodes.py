@@ -226,7 +226,19 @@ async def format_output_node(ctx: Context, node_input: Any) -> Event:
             emitted_donut = True
             allocations = get_val(p, 'channel_allocations') or {}
             if channels and allocations:
-                values = [{"channel": ch, "pct": int(allocations.get(ch, 100 // len(channels)))} for ch in channels]
+                values = []
+                for ch in channels:
+                    raw_val = allocations.get(ch)
+                    if raw_val is None:
+                        val = 100 // len(channels)
+                    else:
+                        try:
+                            if isinstance(raw_val, str):
+                                raw_val = raw_val.replace("%", "").strip()
+                            val = int(raw_val)
+                        except (ValueError, TypeError):
+                            val = 100 // len(channels)
+                    values.append({"channel": ch, "pct": val})
                 total = sum(v["pct"] for v in values)
                 if total != 100 and total > 0:
                     values = [{"channel": v["channel"], "pct": round(v["pct"] * 100 / total)} for v in values]
