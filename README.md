@@ -1,44 +1,68 @@
-# ACME Agents Workspace
+# 🌌 ACME Multi-Agent Workspace
 
-A premium, fully modular multi-agent platform designed for ACME Media, combining real-time marketing campaign automation and customer support service widgets.
+[![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com)
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev)
+[![Google Cloud](https://img.shields.io/badge/Google_Cloud-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white)](https://cloud.google.com)
+[![Gemini](https://img.shields.io/badge/Gemini-8E75C2?style=for-the-badge&logo=google-gemini&logoColor=white)](https://deepmind.google/technologies/gemini)
+
+A production-grade, modular multi-agent ecosystem engineered for **ACME Media**. This system orchestrates automated marketing campaign design and interactive customer support workflows using Vertex AI and the Gemini model suite.
 
 ---
 
-## 🏗️ Architecture & Component Overview
+## 🗺️ System Interaction Diagram
 
-The repository is structured as a monorepo containing three core components:
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as Brand Manager / Customer
+    participant FE as React Frontend
+    participant MA as Marketing Agent (FastAPI)
+    participant CA as Customer Agent (FastAPI)
+    participant BQ as BigQuery Database
+    participant GT as Google Trends (Public Data)
 
+    Note over User, FE: Campaign Generation
+    User->>FE: Ask for campaign (e.g., Japan trends)
+    FE->>MA: POST /query (Run workflow)
+    MA->>GT: Query Trends (auto-redirect country swap)
+    MA->>BQ: Fetch Episode views & metadata
+    MA->>MA: Critic review & revision loop
+    MA-->>FE: Stream campaign proposal (with charts)
+    FE-->>User: Render Glassmorphic UI Dashboard
+
+    Note over User, CA: Customer Support
+    User->>FE: Chat bubble: "I'm bored"
+    FE->>CA: POST /chat (ReAct loop)
+    CA->>BQ: Query top sentiment episodes
+    BQ-->>CA: Return scores (e.g. 0.92)
+    CA-->>FE: Suggest 2-3 friendly options
 ```
-Agents for ACME/
-├── DEPLOYMENT_GUIDE.md     # Setup, local run commands, and Cloud Run deployments
-├── marketing-agent/        # Core agent orchestrating campaign analysis
-│   └── app/                # Modular workflow nodes, tool connections, schemas
-├── customer-agent/         # Customer support assistant responding to client chats
-│   └── customer_app/       # Database-connected ReAct support loop
-└── frontend/               # Premium React + Vite Glassmorphic Dashboard
-    └── src/                # Chart embeds, support chat bubbles, and progress states
-```
 
-### 1. [Marketing Agent](file:///usr/local/google/home/owq/Desktop/Agents%20for%20ACME/marketing-agent/README.md)
-* **Goal:** Generate strategic marketing campaign documents based on concurrent inputs from internal viewership databases and external Google Trends search analytics.
-* **Key Mechanisms:**
-  * **Structured Workflows:** Directed Acyclic Graphs (DAG) routing via ADK 2.0.
-  * **Multi-Region Fallback:** Transparently reroutes requests between regional Vertex AI endpoints on rate exhaustion (`429 RESOURCE_EXHAUSTED`).
-  * **Smart Country Routing:** Automatically swaps country search terms (like `"Japan"`) into strict location filters to retrieve regional trending records directly.
+---
 
-### 2. [Customer Agent](file:///usr/local/google/home/owq/Desktop/Agents%20for%20ACME/customer-agent/README.md)
-* **Goal:** Direct assistant that chats with customers, answers media/podcast library questions, and provides tailored, sentiment-based podcast recommendations.
-* **Key Mechanisms:** ReAct looping with tool access to BigQuery and Google Trends.
+## 📦 Monorepo Component Overview
 
-### 3. [Frontend Dashboard](file:///usr/local/google/home/owq/Desktop/Agents%20for%20ACME/frontend/README.md)
-* **Goal:** A premium, dark-themed, glassmorphic layout interface enabling workspace collaboration.
-* **Key Mechanisms:**
-  * **Live Vega-Lite Rendering:** Renders dynamically generated trend lines, allocation donuts, and episode metrics inline.
-  * **Workflow Stage Progress:** Displays real-time visual progress mapped to backend agent execution states.
-  * **Embedded Chat Widget:** Bridges clients directly to the customer support service.
+| Component | Stack | Primary Responsibilities | Core Logic |
+| :--- | :--- | :--- | :--- |
+| **[Marketing Agent](file:///usr/local/google/home/owq/Desktop/Agents%20for%20ACME/marketing-agent/README.md)** | `Python`, `FastAPI`, `ADK 2.0` | Workflow orchestration, BQ integration, geographic trend swapping | `agent.py` |
+| **[Customer Agent](file:///usr/local/google/home/owq/Desktop/Agents%20for%20ACME/customer-agent/README.md)** | `Python`, `FastAPI`, `ADK ReAct` | Answering queries, sentiment-driven recommendations, rate-limiting | `agent.py` |
+| **[Frontend Dashboard](file:///usr/local/google/home/owq/Desktop/Agents%20for%20ACME/frontend/README.md)** | `React`, `Vite`, `Vega-Lite` | Interactive metrics rendering, step-by-step progress tracking, support chat widget | `App.jsx` |
+
+---
+
+## ⚡ Key Highlights & Defensibility
+
+> [!NOTE]
+> ### 🛡️ Multi-Region Resiliency Fallback
+> The system implements a robust, thread-safe fallback chain that rotates requests across regional endpoints (`us-east4`, `us-west1`, `europe-west4`) with exponential backoff on HTTP `429 RESOURCE_EXHAUSTED` responses.
+
+> [!TIP]
+> ### 📊 Smart Trends Query Routing
+> Google Trends queries are dynamically routed. If a query matches a known country (e.g., `"Japan"`), the query is swapped into a regional filter to pull top trending topics rather than searching for the string "Japan" literally, eliminating search-term bias.
 
 ---
 
 ## 🚀 Getting Started
 
-To get started, follow the comprehensive setup, configuration, and launch instructions in the [Deployment & Usage Guide](file:///usr/local/google/home/owq/Desktop/Agents%20for%20ACME/DEPLOYMENT_GUIDE.md).
+Ready to deploy or run locally? Read the detailed, step-by-step instructions in the:
+👉 **[Deployment & Usage Guide](file:///usr/local/google/home/owq/Desktop/Agents%20for%20ACME/DEPLOYMENT_GUIDE.md)**
